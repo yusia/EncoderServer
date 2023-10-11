@@ -16,9 +16,16 @@ namespace EncoderServer.Services
             var values = ConvertToBase64(text);
             foreach (var item in values)
             {
-                await Task.Delay(1000);
+                await RandomPause();
                 yield return item;
             }
+        }
+        private async Task RandomPause()
+        {
+            const int minPause = 1000, maxPause = 5000;
+            var rnd = new Random();
+            int rndTime = rnd.Next(minPause, maxPause);
+            await Task.Delay(rndTime);
         }
     }
 }
