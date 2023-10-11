@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EncoderServer.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EncoderServer.Controllers
 {
@@ -6,17 +7,16 @@ namespace EncoderServer.Controllers
     [ApiController]
     public class ConvertionsController : ControllerBase
     {
-        [HttpGet("base")]
-        public async IAsyncEnumerable<char> GetBase64Value([FromQuery] string text)
+        private IConvertion ConvertService { get; }
+        public ConvertionsController(IConvertion convertService)
         {
-            var textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            this.ConvertService = convertService;
+        }
 
-            var values = Convert.ToBase64String(textBytes);
-            foreach (var item in values)
-            {
-                await Task.Delay(1000);
-                yield return item;
-            }
+        [HttpGet("base")]
+        public IAsyncEnumerable<char> GetBase64Value([FromQuery] string text)
+        {
+            return ConvertService.ToBase64Async(text);
         }
     }
 
