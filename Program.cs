@@ -4,7 +4,7 @@ using EncoderServer.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<IConvertion, ConvertionService>();
+builder.Services.AddSingleton<IConvertion, ConvertionService>();
 
 var app = builder.Build();
 

@@ -18,6 +18,12 @@ namespace EncoderServer.Controllers
         {
             return ConvertService.ToBase64Async(text);
         }
+
+        [HttpGet("cancel")]
+        public void Cancel()
+        {
+            ConvertService.cancelConvertion();
+        }
     }
 
 }
