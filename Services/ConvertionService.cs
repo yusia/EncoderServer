@@ -15,7 +15,7 @@ namespace EncoderServer.Services
 
         public async IAsyncEnumerable<char> ToBase64Async(string text, CancellationToken cancellationToken)
         {
-            var values = Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
+            var values = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(text));
             foreach (var item in values)
             {
                 await RandomPause(cancellationToken);
