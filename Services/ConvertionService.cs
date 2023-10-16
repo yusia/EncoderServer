@@ -3,7 +3,7 @@ using System.Text;
 
 namespace EncoderServer.Services
 {
-    public class ConvertionService : IConvertion
+    public class ConvertionService : IConvertionService
     {
         private CancellationTokenSource cancellationTokenSource;
 
@@ -18,10 +18,12 @@ namespace EncoderServer.Services
             var values = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(text));
             foreach (var item in values)
             {
-                await RandomPause(cancellationToken);
+                var randomTime = this.RandomPause();
+
+                await Task.Delay(randomTime, cancellationToken);
+
                 yield return item;
             }
-            cancelConvertion();
         }
 
         public void cancelConvertion()
@@ -29,12 +31,11 @@ namespace EncoderServer.Services
             cancellationTokenSource.Cancel();
         }
 
-        private async Task RandomPause(CancellationToken cancellationToken)
+        private int RandomPause()
         {
             const int minPause = 1000, maxPause = 5000;
             var rnd = new Random();
-            int rndTime = rnd.Next(minPause, maxPause);
-            await Task.Delay(rndTime, cancellationToken);
+            return rnd.Next(minPause, maxPause);
         }
     }
 }

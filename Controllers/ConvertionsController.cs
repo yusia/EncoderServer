@@ -7,8 +7,8 @@ namespace EncoderServer.Controllers
     [ApiController]
     public class ConvertionsController : ControllerBase
     {
-        private IConvertion ConvertService { get; }
-        public ConvertionsController(IConvertion convertService)
+        private IConvertionService ConvertService { get; }
+        public ConvertionsController(IConvertionService convertService)
         {
             this.ConvertService = convertService;
         }
