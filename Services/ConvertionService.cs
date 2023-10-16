@@ -5,13 +5,6 @@ namespace EncoderServer.Services
 {
     public class ConvertionService : IConvertionService
     {
-        private CancellationTokenSource cancellationTokenSource;
-
-        public IAsyncEnumerable<char> ToBase64Async(string text)
-        {
-            cancellationTokenSource = new CancellationTokenSource();
-            return ToBase64Async(text, cancellationTokenSource.Token);
-        }
 
         public async IAsyncEnumerable<char> ToBase64Async(string text, CancellationToken cancellationToken)
         {
@@ -20,15 +13,10 @@ namespace EncoderServer.Services
             {
                 var randomTime = this.RandomPause();
 
+                cancellationToken.ThrowIfCancellationRequested();
                 await Task.Delay(randomTime, cancellationToken);
-
                 yield return item;
             }
-        }
-
-        public void cancelConvertion()
-        {
-            cancellationTokenSource.Cancel();
         }
 
         private int RandomPause()

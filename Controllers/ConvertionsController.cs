@@ -7,6 +7,7 @@ namespace EncoderServer.Controllers
     [ApiController]
     public class ConvertionsController : ControllerBase
     {
+        private CancellationTokenSource cancellationTokenSource;
         private IConvertionService ConvertService { get; }
         public ConvertionsController(IConvertionService convertService)
         {
@@ -14,15 +15,9 @@ namespace EncoderServer.Controllers
         }
 
         [HttpGet("base")]
-        public IAsyncEnumerable<char> GetBase64Value([FromQuery] string text)
+        public IAsyncEnumerable<char> GetBase64Value([FromQuery] string text, CancellationToken token = default(CancellationToken))
         {
-            return ConvertService.ToBase64Async(text);
-        }
-
-        [HttpGet("cancel")]
-        public void Cancel()
-        {
-            ConvertService.cancelConvertion();
+            return ConvertService.ToBase64Async(text, token);
         }
     }
 
