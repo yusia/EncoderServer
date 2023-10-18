@@ -18,11 +18,11 @@ namespace EncoderServer.Services
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var randomTime = this.RandomPause();
-
                 await Task.Delay(randomTime, cancellationToken);
                 yield return item;
             }
         }
+
         /// <summary>
         /// Generates random time period from 1 to 5 sec
         /// </summary>
