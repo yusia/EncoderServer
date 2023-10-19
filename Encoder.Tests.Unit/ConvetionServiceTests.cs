@@ -1,5 +1,7 @@
 using Encoder.ConversionService;
 using Encoder.ConversionService.Abstraction;
+using Encoder.ConversionService.Settings;
+using Microsoft.Extensions.Options;
 
 namespace Encoder.Tests.Unit
 {
@@ -10,7 +12,8 @@ namespace Encoder.Tests.Unit
         [SetUp]
         public void Setup()
         {
-            service = new ConvertionService();
+            var settings = Options.Create(new DelaySettings() { Min = 1, Max = 2 });
+            service = new ConvertionService(settings);
         }
 
 
@@ -38,7 +41,7 @@ namespace Encoder.Tests.Unit
             var enumerator = service.ToBase64Async("init text", cancelTokenSource.Token).GetAsyncEnumerator();
             cancelTokenSource.Cancel();
             //Assert
-            Assert.That(async () => await enumerator.MoveNextAsync(), Throws.TypeOf<TaskCanceledException>());
+            Assert.That(async () => await enumerator.MoveNextAsync(), Throws.TypeOf<OperationCanceledException>());
         }
 
     }

@@ -1,10 +1,18 @@
 ﻿using Encoder.ConversionService.Abstraction;
+using Encoder.ConversionService.Settings;
+using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace Encoder.ConversionService
 {
     public class ConvertionService : IConvertionService
     {
+        private readonly DelaySettings _delaySettings;
+        public ConvertionService(IOptions<DelaySettings> delaySettings)
+        {
+            _delaySettings = delaySettings.Value;
+        }
+
         /// <summary>
         /// Convertes received text to base64 forma with immulation long running operation
         /// </summary>
@@ -29,9 +37,8 @@ namespace Encoder.ConversionService
         /// <returns></returns>
         private int RandomPause()
         {
-            const int minPause = 1000, maxPause = 5000;
             var rnd = new Random();
-            var rndTime = rnd.Next(minPause, maxPause); ;
+            var rndTime = rnd.Next(_delaySettings.Min, _delaySettings.Max); ;
             return rndTime;
         }
     }

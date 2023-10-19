@@ -1,5 +1,6 @@
 using Encoder.ConversionService;
 using Encoder.ConversionService.Abstraction;
+using Encoder.ConversionService.Settings;
 using EncoderServer.Abstraction;
 using EncoderServer.Infrastructure;
 
@@ -11,13 +12,14 @@ builder.Services.AddSingleton<ITokenStorage, CancellationTokenStorage>();
 
 builder.Services.AddMvc();
 
+var origin = builder.Configuration.GetSection("AllowedOrigin").Value;
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllHeaders",
         builder =>
         {
             builder
-            .WithOrigins("http://localhost:4200")
+            .WithOrigins(origin)
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -26,6 +28,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddSignalR();
+
+builder.Services.Configure<DelaySettings>(builder.Configuration.GetSection("DelaySettings"));
 
 var app = builder.Build();
 

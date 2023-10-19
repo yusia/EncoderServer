@@ -38,7 +38,7 @@ namespace EncoderServer.Controllers
                 toketStorage.ClientTokenSources[clientId] = source;
             }
 
-            startConvertion(text, clientId, source.Token);
+            _ = startConvertion(text, clientId, source.Token);
             return Ok(new { Message = "please wait converted text" });
         }
 
