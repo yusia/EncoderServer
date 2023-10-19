@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Encoder.Server.Constants;
+using Microsoft.AspNetCore.SignalR;
 
 namespace EncoderServer.Infrastructure
 {
     public class SignalRHub : Hub
     {
-        public async Task join()
+        public async Task GetConnectionId()
         {
-            await Clients.Clients(this.Context.ConnectionId).SendAsync("client_joined", this.Context.ConnectionId);
+            await Clients.Clients(this.Context.ConnectionId).SendAsync(ConvertionMessages.ConnectionId, this.Context.ConnectionId);
         }
     }
 }

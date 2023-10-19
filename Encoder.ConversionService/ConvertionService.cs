@@ -1,7 +1,7 @@
-﻿using EncoderServer.Abstractions;
+﻿using Encoder.ConversionService.Abstraction;
 using System.Text;
 
-namespace EncoderServer.Services
+namespace Encoder.ConversionService
 {
     public class ConvertionService : IConvertionService
     {

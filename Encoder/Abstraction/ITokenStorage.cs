@@ -1,4 +1,4 @@
-﻿namespace EncoderServer.Abstractions
+﻿namespace EncoderServer.Abstraction
 {
     public interface ITokenStorage
     {

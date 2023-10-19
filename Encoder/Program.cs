@@ -1,6 +1,7 @@
-using EncoderServer.Abstractions;
+using Encoder.ConversionService;
+using Encoder.ConversionService.Abstraction;
+using EncoderServer.Abstraction;
 using EncoderServer.Infrastructure;
-using EncoderServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

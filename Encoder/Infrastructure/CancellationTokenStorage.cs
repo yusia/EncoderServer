@@ -1,4 +1,4 @@
-﻿using EncoderServer.Abstractions;
+﻿using EncoderServer.Abstraction;
 
 namespace EncoderServer.Infrastructure
 {

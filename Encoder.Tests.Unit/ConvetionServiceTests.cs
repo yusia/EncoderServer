@@ -1,5 +1,5 @@
-using EncoderServer.Abstractions;
-using EncoderServer.Services;
+using Encoder.ConversionService;
+using Encoder.ConversionService.Abstraction;
 
 namespace Encoder.Tests.Unit
 {
