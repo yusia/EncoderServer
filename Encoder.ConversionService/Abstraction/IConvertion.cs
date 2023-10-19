@@ -1,4 +1,4 @@
-﻿namespace EncoderServer.Abstractions
+﻿namespace Encoder.ConversionService.Abstraction
 {
     public interface IConvertionService
     {

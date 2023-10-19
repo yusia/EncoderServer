@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Encoder\EncoderServer.csproj" />
+    <ProjectReference Include="..\Encoder.ConversionService\Encoder.ConversionService.csproj" />
+    <ProjectReference Include="..\Encoder\Encoder.Server.csproj" />
   </ItemGroup>
 
 </Project>

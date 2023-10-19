@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncoderServer", "Encoder\EncoderServer.csproj", "{ED528856-03EB-4099-BCC3-B260A94CBDF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoder.Server", "Encoder\Encoder.Server.csproj", "{ED528856-03EB-4099-BCC3-B260A94CBDF2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoder.Tests.Unit", "Encoder.Tests.Unit\Encoder.Tests.Unit.csproj", "{C1D49A5D-B6D9-43CA-8BB3-CB025B228EEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoder.ConversionService", "Encoder.ConversionService\Encoder.ConversionService.csproj", "{2B4C3DA2-4AA7-4C80-A1F4-749D8870139A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C1D49A5D-B6D9-43CA-8BB3-CB025B228EEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D49A5D-B6D9-43CA-8BB3-CB025B228EEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1D49A5D-B6D9-43CA-8BB3-CB025B228EEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4C3DA2-4AA7-4C80-A1F4-749D8870139A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4C3DA2-4AA7-4C80-A1F4-749D8870139A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4C3DA2-4AA7-4C80-A1F4-749D8870139A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4C3DA2-4AA7-4C80-A1F4-749D8870139A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,16 +1,19 @@
-using EncoderServer.Abstractions;
-using EncoderServer.Services;
+using Encoder.ConversionService;
+using Encoder.ConversionService.Abstraction;
+using Encoder.ConversionService.Settings;
+using Microsoft.Extensions.Options;
 
 namespace Encoder.Tests.Unit
 {
     public class ConvertionServiceTests
     {
-        IConvertionService service;
+        IConvertionService _service;
 
         [SetUp]
         public void Setup()
         {
-            service = new ConvertionService();
+            var settings = Options.Create(new DelaySettings() { Min = 1, Max = 2 });
+            _service = new ConvertionService(settings);
         }
 
 
@@ -22,7 +25,7 @@ namespace Encoder.Tests.Unit
             //Arrange
             var actual = "";
             //Act
-            await foreach (var symbol in service.ToBase64Async(initText, default(CancellationToken)))
+            await foreach (var symbol in _service.ToBase64Async(initText, default(CancellationToken)))
             {
                 actual += symbol;
             }
@@ -35,10 +38,10 @@ namespace Encoder.Tests.Unit
         {   //Arrange
             var cancelTokenSource = new CancellationTokenSource();
             //Act
-            var enumerator = service.ToBase64Async("init text", cancelTokenSource.Token).GetAsyncEnumerator();
+            var enumerator = _service.ToBase64Async("init text", cancelTokenSource.Token).GetAsyncEnumerator();
             cancelTokenSource.Cancel();
             //Assert
-            Assert.That(async () => await enumerator.MoveNextAsync(), Throws.TypeOf<TaskCanceledException>());
+            Assert.That(async () => await enumerator.MoveNextAsync(), Throws.TypeOf<OperationCanceledException>());
         }
 
     }
