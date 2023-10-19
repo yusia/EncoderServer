@@ -5,9 +5,14 @@ namespace EncoderServer.Infrastructure
 {
     public class SignalRHub : Hub
     {
+        /// <summary>
+        /// Sends connectionId to current client
+        /// </summary>
+        /// <param name="message">Chat message model</param>
         public async Task GetConnectionId()
         {
-            await Clients.Clients(this.Context.ConnectionId).SendAsync(ConvertionMessages.ConnectionId, this.Context.ConnectionId);
+            var connectionId = this.Context.ConnectionId;
+            await Clients.Clients(connectionId).SendAsync(ConvertionMessages.ConnectionId, connectionId);
         }
     }
 }

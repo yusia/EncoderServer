@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IConvertionService, ConvertionService>();
 builder.Services.AddSingleton<ITokenStorage, CancellationTokenStorage>();
-
 builder.Services.AddMvc();
 
 var origin = builder.Configuration.GetSection("AllowedOrigin").Value;
@@ -26,15 +25,11 @@ builder.Services.AddCors(options =>
 
         });
 });
-
 builder.Services.AddSignalR();
-
 builder.Services.Configure<DelaySettings>(builder.Configuration.GetSection("DelaySettings"));
 
 var app = builder.Build();
-
 app.MapGet("/", () => "Converter is running");
-
 app.MapHub<SignalRHub>("/ws");
 app.UseWebSockets();
 app.UseCors("AllowAllHeaders");

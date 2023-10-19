@@ -11,15 +11,15 @@ namespace EncoderServer.Controllers
     [ApiController]
     public class ConvertionsController : ControllerBase
     {
-        private IConvertionService convertService { get; }
-        private readonly IHubContext<SignalRHub> hub;
-        private readonly ITokenStorage toketStorage;
+        private IConvertionService _convertService { get; }
+        private readonly IHubContext<SignalRHub> _hub;
+        private readonly ITokenStorage _toketStorage;
         public ConvertionsController(IConvertionService convertService, IHubContext<SignalRHub> hub,
             ITokenStorage toketStorage)
         {
-            this.convertService = convertService;
-            this.hub = hub;
-            this.toketStorage = toketStorage;
+            this._convertService = convertService;
+            this._hub = hub;
+            this._toketStorage = toketStorage;
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace EncoderServer.Controllers
         {
 
             var source = new CancellationTokenSource();
-            if (!toketStorage.ClientTokenSources.TryAdd(clientId, source))
+            if (!_toketStorage.ClientTokenSources.TryAdd(clientId, source))
             {
-                toketStorage.ClientTokenSources[clientId] = source;
+                _toketStorage.ClientTokenSources[clientId] = source;
             }
 
             _ = startConvertion(text, clientId, source.Token);
@@ -51,30 +51,34 @@ namespace EncoderServer.Controllers
         [HttpGet("cancel")]
         public IActionResult cancel([FromQuery] string clientId)
         {
-            var source = toketStorage.ClientTokenSources[clientId];
+            var source = _toketStorage.ClientTokenSources[clientId];
 
             source.Cancel();
-            toketStorage.ClientTokenSources.Remove(clientId);
+            _toketStorage.ClientTokenSources.Remove(clientId);
 
             return Ok(new { Message = "convertion cancelled" });
         }
 
+        /// <summary>
+        /// Send convertion result via webSocket connection
+        /// </summary>
+        /// <returns></returns>
         private async Task startConvertion(string initText, string clientId, CancellationToken token)
         {
             try
             {
-                await foreach (var symbol in convertService.ToBase64Async(initText, token))
+                await foreach (var symbol in _convertService.ToBase64Async(initText, token))
                 {
-                    await this.hub.Clients.Clients(clientId).SendAsync(ConvertionMessages.ConvertedLetter, symbol, token);
+                    await this._hub.Clients.Clients(clientId).SendAsync(ConvertionMessages.ConvertedLetter, symbol, token);
                 }
             }
             catch (TaskCanceledException)
             {
-                await this.hub.Clients.Clients(clientId).SendAsync(ConvertionMessages.Cancelled, token);
-                toketStorage.ClientTokenSources.Remove(clientId);
+                await this._hub.Clients.Clients(clientId).SendAsync(ConvertionMessages.Cancelled, token);
+                _toketStorage.ClientTokenSources.Remove(clientId);
             }
-            await this.hub.Clients.Clients(clientId).SendAsync(ConvertionMessages.Finished, token);
-            toketStorage.ClientTokenSources.Remove(clientId);
+            await this._hub.Clients.Clients(clientId).SendAsync(ConvertionMessages.Finished, token);
+            _toketStorage.ClientTokenSources.Remove(clientId);
         }
     }
 
